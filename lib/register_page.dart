@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shadow_space/helper/auth.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -8,6 +10,27 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  String? errorMessage = '';
+  bool isLogin = true;
+
+  var _emailController = TextEditingController();
+  var _passwordController = TextEditingController();
+
+  Future<void> createUserWithEmailAndPassword() async {
+    print(_emailController.text);
+    print(_passwordController.text);
+    try {
+      await Auth().createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -22,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                'Assets/Logo.png',
+                'assets/Logo.png',
                 width: screenWidth * 0.5,
                 height: screenHeight * 0.25,
               ),
@@ -61,6 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: TextFormField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'Email',
@@ -89,6 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: TextFormField(
+                  controller: _passwordController,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'Password',
@@ -110,9 +135,11 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(
                 height: screenHeight * 0.03,
               ),
-              // BUTTON LOGIN
+              // BUTTON REGISTER
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  createUserWithEmailAndPassword();
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 40),
                   backgroundColor: Colors.white,

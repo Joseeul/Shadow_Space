@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "663120784220",
+    "project_id": "shadow-space-83b94",
+    "storage_bucket": "shadow-space-83b94.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663120784220:android:c3045ac64998c41d1cef99",
+        "android_client_info": {
+          "package_name": "com.example.shadow_space"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTU064ACEjvC-aQD2jxpMEuR2Iruk2Gic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

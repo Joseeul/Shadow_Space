@@ -15,6 +15,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+  firebase_core: ^3.8.1
+  firebase_auth: ^5.3.4
 
 dev_dependencies:
   flutter_test:
@@ -28,8 +30,8 @@ flutter:
 
   uses-material-design: true
   assets:
-    - Assets/Logo.png
-    - Assets/Google.png
+  - assets/Logo.png
+  - assets/ui_icon/Google.png
 
   # fonts:
   #   - family: Schyler
