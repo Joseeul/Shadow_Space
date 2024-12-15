@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -26,7 +26,35 @@ class _LoginPageState extends State<LoginPage> {
                 width: screenWidth * 0.5,
                 height: screenHeight * 0.25,
               ),
-              // EMAIL
+              // USERNAME
+              Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFF353535),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Username',
+                    labelStyle: TextStyle(
+                      color: Color(0xFFB5B5B5),
+                    ),
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    contentPadding: EdgeInsets.only(
+                      left: 15,
+                      bottom: 15,
+                    ),
+                    fillColor: Colors.white,
+                  ),
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
+              // Email
               Container(
                 decoration: BoxDecoration(
                   color: Color(0xFF353535),
@@ -93,48 +121,10 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text('Log in'),
+                child: Text('Sign up'),
               ),
               SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              Text(
-                'Or Log In With',
-                style: TextStyle(
-                  color: Color(0xFFB5B5B5),
-                ),
-              ),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 40),
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'Assets/Google.png',
-                      height: 17,
-                      width: 17,
-                    ),
-                    SizedBox(
-                      width: 6,
-                    ),
-                    Text('Continue with Google'),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: screenHeight * 0.02,
+                height: screenHeight * 0.03,
               ),
               Container(
                 width: double.infinity,
@@ -167,15 +157,15 @@ class _LoginPageState extends State<LoginPage> {
               Spacer(),
               TextButton(
                 onPressed: () {
-                  Navigator.popAndPushNamed(context, '/register');
+                  Navigator.popAndPushNamed(context, '/');
                 },
                 child: RichText(
                   text: TextSpan(
                     style: TextStyle(color: Colors.white),
                     children: <TextSpan>[
-                      TextSpan(text: 'Don\'t have account? '),
+                      TextSpan(text: 'Already have account? '),
                       TextSpan(
-                        text: 'Sign up',
+                        text: 'Log in',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shadow_space/login_page.dart';
+import 'package:shadow_space/register_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginPage()
+        '/': (context) => LoginPage(),
+        '/register': (context) => RegisterPage()
       },
     );
   }
