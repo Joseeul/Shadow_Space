@@ -35,13 +35,15 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextFormField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    focusedBorder: OutlineInputBorder(),
                     labelText: 'Email',
                     labelStyle: TextStyle(
                       color: Color(0xFFB5B5B5),
                     ),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
-                    contentPadding: EdgeInsets.only(left: 15),
+                    contentPadding: EdgeInsets.only(
+                      left: 15,
+                      bottom: 15,
+                    ),
                     fillColor: Colors.white,
                   ),
                   style: TextStyle(
@@ -61,13 +63,15 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextFormField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    focusedBorder: OutlineInputBorder(),
                     labelText: 'Password',
                     labelStyle: TextStyle(
                       color: Color(0xFFB5B5B5),
                     ),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
-                    contentPadding: EdgeInsets.only(left: 15),
+                    contentPadding: EdgeInsets.only(
+                      left: 15,
+                      bottom: 15,
+                    ),
                     fillColor: Colors.white,
                   ),
                   style: TextStyle(
@@ -175,7 +179,10 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
             ],
           ),
         ),
