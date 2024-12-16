@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/auth.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -10,13 +9,11 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
- class _LoginPageState extends State<LoginPage> {
-
+class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
     Firebase.initializeApp().whenComplete(() {
-      print("aa");
       setState(() {});
     });
   }
@@ -33,13 +30,18 @@ class LoginPage extends StatefulWidget {
         email: _emailController.text,
         password: _passwordController.text,
       );
+      Navigator.popAndPushNamed(context, '/home_page');
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
+      errorMessage = e.message;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Wrong Email or Password',
+          ),
+        ),
+      );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +57,11 @@ class LoginPage extends StatefulWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/Logo.png',
+                'lib/assets/Logo.png',
                 width: screenWidth * 0.5,
                 height: screenHeight * 0.25,
               ),
+
               // EMAIL
               Container(
                 decoration: BoxDecoration(
@@ -66,11 +69,13 @@ class LoginPage extends StatefulWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: TextFormField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'Email',
                     labelStyle: TextStyle(
                       color: Color(0xFFB5B5B5),
+                      fontFamily: 'j-medium',
                     ),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     contentPadding: EdgeInsets.only(
@@ -81,24 +86,31 @@ class LoginPage extends StatefulWidget {
                   ),
                   style: TextStyle(
                     color: Colors.white,
+                    fontFamily: 'j-medium',
                   ),
                 ),
               ),
+
               SizedBox(
                 height: screenHeight * 0.02,
               ),
+
               // PASSWORD
               Container(
                 decoration: BoxDecoration(
                   color: Color(0xFF353535),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
                 child: TextFormField(
+                  controller: _passwordController,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'Password',
                     labelStyle: TextStyle(
                       color: Color(0xFFB5B5B5),
+                      fontFamily: 'j-medium',
                     ),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     contentPadding: EdgeInsets.only(
@@ -109,15 +121,20 @@ class LoginPage extends StatefulWidget {
                   ),
                   style: TextStyle(
                     color: Colors.white,
+                    fontFamily: 'j-medium',
                   ),
                 ),
               ),
+
               SizedBox(
                 height: screenHeight * 0.03,
               ),
+
               // BUTTON LOGIN
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  signInWithEmailAndPassword();
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 40),
                   backgroundColor: Colors.white,
@@ -126,22 +143,38 @@ class LoginPage extends StatefulWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text('Log in'),
-              ),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              Text(
-                'Or Log In With',
-                style: TextStyle(
-                  color: Color(0xFFB5B5B5),
+                child: Text(
+                  'Log in',
+                  style: TextStyle(
+                    fontFamily: 'j-medium',
+                  ),
                 ),
               ),
+
               SizedBox(
                 height: screenHeight * 0.02,
               ),
+
+              Text(
+                'or log in with',
+                style: TextStyle(
+                  color: Color(0xFFB5B5B5),
+                  fontFamily: 'j-reg',
+                ),
+              ),
+
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
+
+              //GOOGLE BUTTON
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async{
+                  try{
+                    await Auth().signInWithGoogle();
+                    Navigator.popAndPushNamed(context, '/home_page');
+                  } catch (e){}
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 40),
                   backgroundColor: Colors.white,
@@ -155,14 +188,19 @@ class LoginPage extends StatefulWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/ui_icon/Google.png',
+                      'lib/assets/ui_icon/Google.png',
                       height: 17,
                       width: 17,
                     ),
                     SizedBox(
                       width: 6,
                     ),
-                    Text('Continue with Google'),
+                    Text(
+                      'Continue with Google',
+                      style: TextStyle(
+                        fontFamily: 'j-medium',
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -173,7 +211,10 @@ class LoginPage extends StatefulWidget {
                 width: double.infinity,
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'j-reg',
+                    ),
                     children: <TextSpan>[
                       TextSpan(
                           text:
@@ -197,14 +238,19 @@ class LoginPage extends StatefulWidget {
                   ),
                 ),
               ),
+
               Spacer(),
+
               TextButton(
                 onPressed: () {
                   Navigator.popAndPushNamed(context, '/register');
                 },
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'j-reg',
+                    ),
                     children: <TextSpan>[
                       TextSpan(text: 'Don\'t have account? '),
                       TextSpan(

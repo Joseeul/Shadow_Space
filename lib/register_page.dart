@@ -24,10 +24,26 @@ class _RegisterPageState extends State<RegisterPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Register success, Please log in',
+            style: TextStyle(
+              fontFamily: 'j-bold',
+            ),
+          ),
+        ),
+      );
+      Navigator.popAndPushNamed(context, '/');
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
+      errorMessage = e.message;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Register Failed',
+          ),
+        ),
+      );
     }
   }
 
@@ -45,15 +61,18 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/Logo.png',
+                'lib/assets/Logo.png',
                 width: screenWidth * 0.5,
                 height: screenHeight * 0.25,
               ),
+
               // USERNAME
               Container(
                 decoration: BoxDecoration(
                   color: Color(0xFF353535),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
                 child: TextFormField(
                   decoration: InputDecoration(
@@ -61,6 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     labelText: 'Username',
                     labelStyle: TextStyle(
                       color: Color(0xFFB5B5B5),
+                      fontFamily: 'j-medium',
                     ),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     contentPadding: EdgeInsets.only(
@@ -71,12 +91,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   style: TextStyle(
                     color: Colors.white,
+                    fontFamily: 'j-medium',
                   ),
                 ),
               ),
+
               SizedBox(
                 height: screenHeight * 0.02,
               ),
+
               // Email
               Container(
                 decoration: BoxDecoration(
@@ -90,6 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     labelText: 'Email',
                     labelStyle: TextStyle(
                       color: Color(0xFFB5B5B5),
+                      fontFamily: 'j-medium',
                     ),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     contentPadding: EdgeInsets.only(
@@ -100,12 +124,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   style: TextStyle(
                     color: Colors.white,
+                    fontFamily: 'j-medium',
                   ),
                 ),
               ),
+
               SizedBox(
                 height: screenHeight * 0.02,
               ),
+
               // PASSWORD
               Container(
                 decoration: BoxDecoration(
@@ -119,6 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     labelText: 'Password',
                     labelStyle: TextStyle(
                       color: Color(0xFFB5B5B5),
+                      fontFamily: 'j-medium',
                     ),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     contentPadding: EdgeInsets.only(
@@ -129,12 +157,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   style: TextStyle(
                     color: Colors.white,
+                    fontFamily: 'j-medium',
                   ),
                 ),
               ),
+
               SizedBox(
                 height: screenHeight * 0.03,
               ),
+
               // BUTTON REGISTER
               ElevatedButton(
                 onPressed: () {
@@ -148,20 +179,31 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text('Sign up'),
+                child: Text(
+                  'Sign up',
+                  style: TextStyle(
+                    fontFamily: 'j-medium',
+                  ),
+                ),
               ),
+
               SizedBox(
                 height: screenHeight * 0.03,
               ),
+
+              //TEXT
               Container(
                 width: double.infinity,
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'j-reg',
+                    ),
                     children: <TextSpan>[
                       TextSpan(
                           text:
-                              'By clicking Continue, you agree to Shadow Space’s '),
+                              'By clicking Sign Up, you agree to Shadow Space’s '),
                       TextSpan(
                         text: 'User Agreement',
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -181,14 +223,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
+
               Spacer(),
+
+              //LOGIN TEXT
               TextButton(
                 onPressed: () {
                   Navigator.popAndPushNamed(context, '/');
                 },
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'j-reg',
+                    ),
                     children: <TextSpan>[
                       TextSpan(text: 'Already have account? '),
                       TextSpan(
@@ -199,6 +247,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
+
               SizedBox(
                 height: screenHeight * 0.02,
               ),
