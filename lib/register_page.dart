@@ -159,6 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: Colors.white,
                     fontFamily: 'j-medium',
                   ),
+                  obscureText: true,
                 ),
               ),
 

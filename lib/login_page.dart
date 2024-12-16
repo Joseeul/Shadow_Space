@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/auth.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -123,6 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white,
                     fontFamily: 'j-medium',
                   ),
+                  obscureText: true,
                 ),
               ),
 
@@ -169,11 +171,18 @@ class _LoginPageState extends State<LoginPage> {
 
               //GOOGLE BUTTON
               ElevatedButton(
-                onPressed: () async{
-                  try{
+                onPressed: () async {
+                  try {
                     await Auth().signInWithGoogle();
                     Navigator.popAndPushNamed(context, '/home_page');
-                  } catch (e){}
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(e.toString()),
+                      ),
+                    );
+                    print(e);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 40),
