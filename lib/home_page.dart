@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart' as html;
 import 'package:http/http.dart' as http;
 import 'package:shadow_space/helper/auth.dart';
+import 'package:shadow_space/helper/topic.dart';
+import 'package:shadow_space/helper/topic_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -95,28 +97,39 @@ class _HomePageState extends State<HomePage> {
                       child: ListView.builder(
                         itemCount: topics.length,
                         itemBuilder: (context, index) {
-                          return Card(
-                            margin: EdgeInsets.symmetric(vertical: 3.5),
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                                color: Color(0xFF353535),
+                          return GestureDetector(
+                            onTap: () {
+                              // TopicService.selectedTopic?.index = index;
+                              // TopicService.selectedTopic?.title = topics[index];
+                              TopicService.selectedTopic =
+                                  Topic(index: index, title: topics[index]);
+                              Navigator.pushNamed(context, '/insert_page');
+                            },
+                            child: Card(
+                              margin: EdgeInsets.symmetric(vertical: 3.5),
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                  color: Color(0xFF353535),
+                                ),
                               ),
-                            ),
-                            color: Colors.transparent,
-                            child: ListTile(
-                              title: Text(
-                                '${topics[index]}',
-                                style: TextStyle(color: Colors.white),
+                              color: Colors.transparent,
+                              child: ListTile(
+                                title: Text(
+                                  '${topics[index]}',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
+                              // tempat naro icon button like, comment, repost
                             ),
-                            // tempat naro icon button like, comment, repost
                           );
                         },
                       ),
                     );
                   } else {
-                    return Center(child: Text('No data available'));
+                    return Center(
+                      child: Text('No data available'),
+                    );
                   }
                 },
               ),
