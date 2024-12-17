@@ -67,25 +67,23 @@ class _InsertPageState extends State<InsertPage> {
 
                         //get thread from each docs
                         // if (TopicService.selectedTopic!.title != document)
-                          Map<String, dynamic> data =
-                              document.data() as Map<String, dynamic>;
-                        if (TopicService.selectedTopic!.title ==
-                            data['topic']) {
-                          String threadText = data['content'];
-                          String threadUser = data['username'];
+                        Map<String, dynamic> data =
+                            document.data() as Map<String, dynamic>;
 
-                          //display as list tile
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(threadUser),
-                              Text(threadText),
-                              SizedBox(
-                                height: 5,
-                              ),
-                            ],
-                          );
-                        }
+                        String threadText = data['content'];
+                        String threadUser = data['username'];
+
+                        //display as list tile
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(threadUser),
+                            Text(threadText),
+                            SizedBox(
+                              height: 5,
+                            ),
+                          ],
+                        );
                       },
                     ),
                   );
