@@ -17,10 +17,12 @@ class _LoginPageState extends State<LoginPage> {
     Firebase.initializeApp().whenComplete(() {
       setState(() {});
     });
+    _passwordVisible = false;
   }
 
   String? errorMessage = '';
   bool isLogin = true;
+  bool _passwordVisible = false;
 
   var _emailController = TextEditingController();
   var _passwordController = TextEditingController();
@@ -49,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black,
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -113,6 +116,19 @@ class _LoginPageState extends State<LoginPage> {
                       color: Color(0xFFB5B5B5),
                       fontFamily: 'j-medium',
                     ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                      icon: Icon(
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.white,
+                      ),
+                    ),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     contentPadding: EdgeInsets.only(
                       left: 15,
@@ -124,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white,
                     fontFamily: 'j-medium',
                   ),
-                  obscureText: true,
+                  obscureText: !_passwordVisible,
                 ),
               ),
 
