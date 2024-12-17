@@ -56,10 +56,10 @@ class _HomePageState extends State<HomePage> {
           centerTitle: true,
           title: Image.asset(
             'lib/assets/Icon.png',
-            width: screenWidth * 0.15,
-            height: screenHeight * 0.15,
+            width: screenWidth * 0.125,
+            height: screenHeight * 0.125,
           ),
-          toolbarHeight: screenHeight * 0.15,
+          toolbarHeight: screenHeight * 0.1,
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(screenHeight * 0.001),
             child: Container(
@@ -116,7 +116,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   } else {
-                    return Center(child: Text('No data available'));
+                    return Center(
+                      child: Text('No data available'),
+                    );
                   }
                 },
               ),

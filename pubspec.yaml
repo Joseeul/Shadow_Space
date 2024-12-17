@@ -21,6 +21,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   http: ^1.2.2
   html: ^0.15.5
+  cloud_firestore: ^5.5.1
 
 
 dev_dependencies:
@@ -32,8 +33,8 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "lib/assets/app_icon.png"
-  adaptive_icon_foreground: "lib/assets/app_icon.png"
+  image_path: "lib/assets/Icon.png"
+  adaptive_icon_foreground: "lib/assets/Icon.png"
   adaptive_icon_background: "#000000"
 
 flutter:

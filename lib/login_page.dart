@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      Navigator.popAndPushNamed(context, '/home_page');
+      Navigator.popAndPushNamed(context, '/insert_page');
     } on FirebaseAuthException catch (e) {
       errorMessage = e.message;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () async {
                   try {
                     await Auth().signInWithGoogle();
-                    Navigator.popAndPushNamed(context, '/home_page');
+                    Navigator.popAndPushNamed(context, '/insert_page');
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
