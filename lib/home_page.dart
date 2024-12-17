@@ -83,7 +83,6 @@ class _HomePageState extends State<HomePage> {
                 indicatorColor: Colors.white,
                 labelColor: Colors.white,
                 dividerColor: Colors.transparent,
-                // indicatorAnimation: TabIndicatorAnimation.,
               ),
               FutureBuilder<List<String>>(
                 future: trendingTopics,
