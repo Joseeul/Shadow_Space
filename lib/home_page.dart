@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shadow_space/tab_for_you.dart';
 import 'package:shadow_space/tab_news.dart';
 import 'package:shadow_space/tab_trending.dart';
 // import 'package:shadow_space/helper/topic_service.dart';
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
     double screenHeight = MediaQuery.of(context).size.height;
     return DefaultTabController(
       initialIndex: 0,
-      length: 2,
+      length: 3,
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
@@ -52,11 +53,14 @@ class _HomePageState extends State<HomePage> {
             TabBar(
               tabs: <Widget>[
                 Tab(
+                  text: 'For You',
+                ),
+                Tab(
                   text: 'Trending Topics',
                 ),
                 Tab(
                   text: 'Top News',
-                )
+                ),
               ],
               indicatorColor: Colors.white,
               labelColor: Colors.white,
@@ -65,6 +69,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: TabBarView(
                 children: [
+                  TabForYou(),
                   TabTrending(),
                   TabNews(),
                 ],

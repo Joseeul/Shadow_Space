@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/auth.dart';
+import 'package:shadow_space/helper/firestore.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -10,15 +11,25 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final FirestoreUser firestoreUser = FirestoreUser();
   String? errorMessage = '';
   bool isLogin = true;
+  bool _passwordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordVisible = false;
+  }
 
   var _emailController = TextEditingController();
   var _passwordController = TextEditingController();
+  var _usernameController = TextEditingController();
 
   Future<void> createUserWithEmailAndPassword() async {
     print(_emailController.text);
     print(_passwordController.text);
+    print(_usernameController.text);
     try {
       await Auth().createUserWithEmailAndPassword(
         email: _emailController.text,
@@ -34,6 +45,8 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       );
+      firestoreUser
+          .addUsers(_usernameController.text, _emailController.text);
       Navigator.popAndPushNamed(context, '/');
     } on FirebaseAuthException catch (e) {
       errorMessage = e.message;
@@ -52,6 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black,
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -75,6 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 child: TextFormField(
+                  controller: _usernameController,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'Username',
@@ -137,7 +152,9 @@ class _RegisterPageState extends State<RegisterPage> {
               Container(
                 decoration: BoxDecoration(
                   color: Color(0xFF353535),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
                 child: TextFormField(
                   controller: _passwordController,
@@ -147,6 +164,19 @@ class _RegisterPageState extends State<RegisterPage> {
                     labelStyle: TextStyle(
                       color: Color(0xFFB5B5B5),
                       fontFamily: 'j-medium',
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                      icon: Icon(
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.white,
+                      ),
                     ),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     contentPadding: EdgeInsets.only(
@@ -159,9 +189,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: Colors.white,
                     fontFamily: 'j-medium',
                   ),
-                  obscureText: true,
+                  obscureText: !_passwordVisible,
                 ),
               ),
+
 
               SizedBox(
                 height: screenHeight * 0.03,
@@ -171,6 +202,8 @@ class _RegisterPageState extends State<RegisterPage> {
               ElevatedButton(
                 onPressed: () {
                   createUserWithEmailAndPassword();
+                  
+                  // firestoreService.addUsers(_usernameController.text, _emailController.text);
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 40),

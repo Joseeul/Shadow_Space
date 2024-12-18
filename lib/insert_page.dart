@@ -11,7 +11,7 @@ class InsertPage extends StatefulWidget {
 }
 
 class _InsertPageState extends State<InsertPage> {
-  final FirestoreService firestoreService = FirestoreService();
+  final FirestoreThread firestoreThread = FirestoreThread();
   var _threadController = TextEditingController();
 
   void createThread() {
@@ -24,7 +24,7 @@ class _InsertPageState extends State<InsertPage> {
         actions: [
           ElevatedButton(
             onPressed: () {
-              firestoreService.addThread(
+              firestoreThread.addThread(
                   _threadController.text, TopicService.selectedTopic!.title);
               _threadController.clear();
               Navigator.pop(context);
@@ -40,7 +40,7 @@ class _InsertPageState extends State<InsertPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Insert Thread'),
+        title: Text(TopicService.selectedTopic!.title),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createThread,
@@ -49,9 +49,8 @@ class _InsertPageState extends State<InsertPage> {
       body: Container(
         child: Column(
           children: [
-            Text(TopicService.selectedTopic!.title),
             StreamBuilder<QuerySnapshot>(
-              stream: firestoreService.getThreadStream(),
+              stream: firestoreThread.getThreadStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -66,7 +65,6 @@ class _InsertPageState extends State<InsertPage> {
                         DocumentSnapshot document = threadList[index];
 
                         //get thread from each docs
-                        // if (TopicService.selectedTopic!.title != document)
                         Map<String, dynamic> data =
                             document.data() as Map<String, dynamic>;
 

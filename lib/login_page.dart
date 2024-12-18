@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/auth.dart';
+import 'package:shadow_space/helper/user_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
