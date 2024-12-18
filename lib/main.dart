@@ -4,6 +4,7 @@ import 'package:shadow_space/firebase_options.dart';
 import 'package:shadow_space/home_page.dart';
 import 'package:shadow_space/insert_page.dart';
 import 'package:shadow_space/login_page.dart';
+import 'package:shadow_space/profile_page.dart';
 import 'package:shadow_space/register_page.dart';
 
 void main() async{
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/home_page': (context) => HomePage(),
-        '/insert_page': (context) => InsertPage()
+        '/insert_page': (context) => InsertPage(),
+        '/profile_page': (context) => ProfilePage()
       },
     );
   }

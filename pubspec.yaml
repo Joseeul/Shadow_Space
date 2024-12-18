@@ -22,6 +22,7 @@ dependencies:
   http: ^1.2.2
   html: ^0.15.5
   cloud_firestore: ^5.5.1
+  cached_network_image: ^3.4.1
 
 
 dev_dependencies:

@@ -63,8 +63,6 @@ class _TabTrendingState extends State<TabTrending> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      // TopicService.selectedTopic?.index = index;
-                      // TopicService.selectedTopic?.title = topics[index];
                       TopicService.selectedTopic =
                           Topic(index: index, title: topics[index]);
                       Navigator.pushNamed(context, '/insert_page');

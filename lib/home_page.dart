@@ -28,6 +28,16 @@ class _HomePageState extends State<HomePage> {
             width: screenWidth * 0.125,
             height: screenHeight * 0.125,
           ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/profile_page');
+            },
+            icon: Image.asset(
+              'lib/assets/ui_icon/account.png',
+              width: screenWidth * 0.1,
+              height: screenHeight * 0.1,
+            ),
+          ),
           toolbarHeight: screenHeight * 0.1,
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(screenHeight * 0.001),
