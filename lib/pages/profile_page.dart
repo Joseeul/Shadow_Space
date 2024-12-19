@@ -11,7 +11,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.black,
@@ -48,8 +48,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     minimumSize: Size(double.infinity, 40),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Color(0xFFAC0909),
+                      ),
                     ),
                     backgroundColor: Colors.transparent,
+                    overlayColor: Color(0xFFAC0909),
                   ),
                   onPressed: () {
                     Auth().signOut();
@@ -59,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                   child: Text(
                     'Log out',
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: Color(0xFFAC0909)),
                   ),
                 ),
               ],

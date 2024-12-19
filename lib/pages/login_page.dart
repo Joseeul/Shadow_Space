@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/auth.dart';
-import 'package:shadow_space/helper/user_service.dart';
+// import 'package:shadow_space/helper/user_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -89,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     fillColor: Colors.white,
                   ),
+                  cursorColor: Colors.white,
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'j-medium',
@@ -137,6 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     fillColor: Colors.white,
                   ),
+                  cursorColor: Colors.white,
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'j-medium',

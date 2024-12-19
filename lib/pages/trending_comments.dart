@@ -1,20 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/firestore.dart';
-import 'package:shadow_space/helper/foryou_Service.dart';
+import 'package:shadow_space/helper/topic_service.dart';
 
-class ForYouComments extends StatefulWidget {
-  const ForYouComments({super.key});
+class TrendingCommentsPage extends StatefulWidget {
+  const TrendingCommentsPage({super.key});
 
   @override
-  State<ForYouComments> createState() => _ForYouCommentsState();
+  State<TrendingCommentsPage> createState() => _TrendingCommentsPageState();
 }
 
-class _ForYouCommentsState extends State<ForYouComments> {
-  final FirestoreCommentForYou firestoreCommentForYou =
-      FirestoreCommentForYou();
+class _TrendingCommentsPageState extends State<TrendingCommentsPage> {
+  final FirestoreThread firestoreThread = FirestoreThread();
+  var _threadController = TextEditingController();
 
-  var _commentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -23,7 +22,12 @@ class _ForYouCommentsState extends State<ForYouComments> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.1,
-        title: Text('Comments'),
+        title: Text(
+          'Comments',
+          style: TextStyle(
+            fontFamily: 'j-reg',
+          ),
+        ),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         bottom: PreferredSize(
@@ -40,35 +44,26 @@ class _ForYouCommentsState extends State<ForYouComments> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              ForyouService.selectedForyouTopic!.forYouTitle,
+              TopicService.selectedTopic!.title,
               style: TextStyle(
                 color: Colors.white,
-                fontFamily: 'j-medium',
-                fontSize: 20,
-              ),
-            ),
-            Text(
-              ForyouService.selectedForyouTopic!.forYouDescription,
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'j-reg',
+                fontFamily: 'j-bold',
+                fontSize: 30,
               ),
             ),
             TextField(
-              controller: _commentController,
+              controller: _threadController,
               decoration: InputDecoration(
                 labelText: 'Add Comment',
                 labelStyle: TextStyle(
                   color: Colors.white,
-                  fontFamily: 'j-reg',
                 ),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 suffixIcon: IconButton(
                   onPressed: () {
-                    firestoreCommentForYou.addForyouComment(
-                        _commentController.text,
-                        ForyouService.selectedForyouTopic!.forYouTitle);
-                    _commentController.clear();
+                    firestoreThread.addThread(_threadController.text,
+                        TopicService.selectedTopic!.title);
+                    _threadController.clear();
                   },
                   icon: Icon(Icons.send_rounded),
                 ),
@@ -80,7 +75,7 @@ class _ForYouCommentsState extends State<ForYouComments> {
               style: TextStyle(color: Colors.white),
             ),
             StreamBuilder<QuerySnapshot>(
-              stream: firestoreCommentForYou.getForyouCommentStream(),
+              stream: firestoreThread.getThreadStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -103,6 +98,7 @@ class _ForYouCommentsState extends State<ForYouComments> {
                             document.data() as Map<String, dynamic>;
 
                         String commentText = data['content'];
+                        // String userText = data['username'];
 
                         //display as list tile
                         return Column(
@@ -153,7 +149,7 @@ class _ForYouCommentsState extends State<ForYouComments> {
                     ),
                   );
                 } else {
-                  return Text('no comment yet');
+                  return Text('no threads yet');
                 }
               },
             ),

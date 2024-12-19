@@ -45,8 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       );
-      firestoreUser
-          .addUsers(_usernameController.text, _emailController.text);
+      firestoreUser.addUsers(_usernameController.text, _emailController.text);
       Navigator.popAndPushNamed(context, '/');
     } on FirebaseAuthException catch (e) {
       errorMessage = e.message;
@@ -104,6 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     fillColor: Colors.white,
                   ),
+                  cursorColor: Colors.white,
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'j-medium',
@@ -137,6 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     fillColor: Colors.white,
                   ),
+                  cursorColor: Colors.white,
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'j-medium',
@@ -185,6 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     fillColor: Colors.white,
                   ),
+                  cursorColor: Colors.white,
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'j-medium',
@@ -192,7 +194,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   obscureText: !_passwordVisible,
                 ),
               ),
-
 
               SizedBox(
                 height: screenHeight * 0.03,
@@ -202,7 +203,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ElevatedButton(
                 onPressed: () {
                   createUserWithEmailAndPassword();
-                  
+
                   // firestoreService.addUsers(_usernameController.text, _emailController.text);
                 },
                 style: ElevatedButton.styleFrom(

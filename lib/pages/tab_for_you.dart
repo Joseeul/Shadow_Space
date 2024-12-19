@@ -36,9 +36,6 @@ class _TabForYouState extends State<TabForYou> {
               return Container(
                 padding:
                     EdgeInsets.only(bottom: mediaQueryData.viewInsets.bottom),
-                // padding: EdgeInsets.only(bottom: mediaQueryData.viewInsets.bottom),
-                // height: screenHeight * 0.4,
-                // width: double.infinity,
                 child: Padding(
                   padding: EdgeInsets.all(20),
                   child: Column(
@@ -51,9 +48,9 @@ class _TabForYouState extends State<TabForYou> {
                           Text(
                             'Make New Topic',
                             style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'j-bold',
-                            ),
+                                fontSize: 20,
+                                fontFamily: 'j-medium',
+                                color: Colors.black),
                           ),
                           IconButton(
                             onPressed: () {
@@ -86,6 +83,7 @@ class _TabForYouState extends State<TabForYou> {
                             borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
+                        cursorColor: Colors.black,
                         style: TextStyle(
                           fontFamily: 'j-reg',
                         ),
@@ -105,6 +103,7 @@ class _TabForYouState extends State<TabForYou> {
                             borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
+                        cursorColor: Colors.black,
                         style: TextStyle(
                           fontFamily: 'j-reg',
                         ),
@@ -193,11 +192,17 @@ class _TabForYouState extends State<TabForYou> {
                               child: ListTile(
                                 title: Text(
                                   titleText,
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'j-medium',
+                                  ),
                                 ),
                                 subtitle: Text(
                                   descriptionText,
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'j-reg',
+                                  ),
                                 ),
                               ),
                             ),

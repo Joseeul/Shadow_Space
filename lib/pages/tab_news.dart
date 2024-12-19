@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shadow_space/helper/news_service.dart';
 import 'package:shadow_space/models/news_article.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +14,7 @@ class TabNews extends StatefulWidget {
 class _TabNewsState extends State<TabNews> {
   Future<List<NewsArticle>> fetchNews() async {
     var url =
-        'https://newsapi.org/v2/top-headlines?country=us&apiKey=6649db36b05042b386247dfe6ee66ceb';
+        'https://newsapi.org/v2/everything?q=tesla&from=2024-11-19&sortBy=publishedAt&apiKey=6649db36b05042b386247dfe6ee66ceb';
     try {
       var response = await http.get(Uri.parse(url));
       var jsonData = jsonDecode(response.body);
@@ -36,7 +37,10 @@ class _TabNewsState extends State<TabNews> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Berita Terkini'),
+        title: Text(
+          'All News',
+          style: TextStyle(color: Colors.white, fontFamily: 'j-medium'),
+        ),
         backgroundColor: Colors.black,
       ),
       body: FutureBuilder<List<NewsArticle>>(
@@ -68,6 +72,7 @@ class _TabNewsState extends State<TabNews> {
               itemCount: articles.length,
               itemBuilder: (context, index) {
                 final article = articles[index];
+
                 return Card(
                   color: Colors.grey[900],
                   margin:
@@ -75,24 +80,31 @@ class _TabNewsState extends State<TabNews> {
                   child: ListTile(
                     leading: article.urlToImage != 'null'
                         ? Image.network(
-                            article.urlToImage!,
+                            article.urlToImage,
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,
                           )
                         : Icon(Icons.article, color: Colors.white),
                     title: Text(
-                      article.title ?? 'Judul tidak tersedia',
-                      style: TextStyle(color: Colors.white),
+                      article.title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'j-medium',
+                      ),
                     ),
                     subtitle: Text(
-                      article.description ?? 'Deskripsi tidak tersedia',
-                      style: TextStyle(color: Colors.white70),
+                      article.description,
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontFamily: 'j-reg',
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     onTap: () {
-                      // Tambahkan aksi jika ingin membuka detail artikel
+                      NewsService.selectedNews = article;
+                      Navigator.pushNamed(context, '/news_details_page');
                     },
                   ),
                 );

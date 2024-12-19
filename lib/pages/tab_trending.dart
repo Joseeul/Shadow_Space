@@ -63,9 +63,8 @@ class _TabTrendingState extends State<TabTrending> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      TopicService.selectedTopic =
-                          Topic(title: topics[index]);
-                      Navigator.pushNamed(context, '/insert_page');
+                      TopicService.selectedTopic = Topic(title: topics[index]);
+                      Navigator.pushNamed(context, '/trending_comments_page');
                     },
                     child: Card(
                       margin: EdgeInsets.symmetric(vertical: 3.5),
@@ -79,7 +78,7 @@ class _TabTrendingState extends State<TabTrending> {
                       child: ListTile(
                         title: Text(
                           '${topics[index]}',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontFamily: 'j-medium'),
                         ),
                       ),
                       // tempat naro icon button like, comment, repost
