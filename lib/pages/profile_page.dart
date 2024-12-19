@@ -40,16 +40,27 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(double.infinity, 40),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Colors.transparent,
+                  ),
                   onPressed: () {
                     Auth().signOut();
                     Auth().signOutGoogle();
                     Navigator.pop(context);
                     Navigator.popAndPushNamed(context, '/');
                   },
-                  child: Text('Log out'),
+                  child: Text(
+                    'Log out',
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
               ],
             ),

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/firestore.dart';
+import 'package:shadow_space/helper/foryou_Service.dart';
+import 'package:shadow_space/models/foryou_topic.dart';
 
 class TabForYou extends StatefulWidget {
   const TabForYou({super.key});
@@ -18,27 +20,41 @@ class _TabForYouState extends State<TabForYou> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        shape: CircleBorder(),
         onPressed: () {
           showModalBottomSheet(
+            useSafeArea: true,
+            isScrollControlled: true,
             context: context,
             builder: (BuildContext context) {
+              final MediaQueryData mediaQueryData = MediaQuery.of(context);
               return Container(
-                height: screenHeight * 0.4,
-                width: double.infinity,
+                padding:
+                    EdgeInsets.only(bottom: mediaQueryData.viewInsets.bottom),
+                // padding: EdgeInsets.only(bottom: mediaQueryData.viewInsets.bottom),
+                // height: screenHeight * 0.4,
+                // width: double.infinity,
                 child: Padding(
                   padding: EdgeInsets.all(20),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       //judul sama icon silang
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Make New Topic'),
+                          Text(
+                            'Make New Topic',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'j-bold',
+                            ),
+                          ),
                           IconButton(
                             onPressed: () {
                               Navigator.pop(context);
@@ -48,6 +64,14 @@ class _TabForYouState extends State<TabForYou> {
                         ],
                       ),
 
+                      SizedBox(
+                        width: double.infinity,
+                        child: Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                        ),
+                      ),
+
                       //topic name
                       TextFormField(
                         controller: _titleController,
@@ -55,8 +79,15 @@ class _TabForYouState extends State<TabForYou> {
                           labelText: 'Title',
                           labelStyle: TextStyle(
                             color: Colors.black,
+                            fontFamily: 'j-reg',
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'j-reg',
                         ),
                       ),
 
@@ -67,8 +98,15 @@ class _TabForYouState extends State<TabForYou> {
                           labelText: 'Description',
                           labelStyle: TextStyle(
                             color: Colors.black,
+                            fontFamily: 'j-reg',
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'j-reg',
                         ),
                       ),
 
@@ -88,7 +126,17 @@ class _TabForYouState extends State<TabForYou> {
                               _descriptionController.clear();
                               Navigator.pop(context);
                             },
-                            child: Text('Post'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Post',
+                              style: TextStyle(
+                                  fontFamily: 'j-medium', color: Colors.white),
+                            ),
                           )
                         ],
                       )
@@ -108,7 +156,10 @@ class _TabForYouState extends State<TabForYou> {
                 stream: firestoreAddForYouTopic.getTitleStream(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ));
                   } else if (snapshot.hasData) {
                     List titleList = snapshot.data!.docs;
                     return Expanded(
@@ -122,21 +173,34 @@ class _TabForYouState extends State<TabForYou> {
                           String titleText = data['title'];
                           String descriptionText = data['description'];
 
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                titleText,
-                                style: TextStyle(color: Colors.white),
+                          return GestureDetector(
+                            onTap: () {
+                              ForyouService.selectedForyouTopic = ForyouTopic(
+                                  forYouTitle: data['title'],
+                                  forYouDescription: data['description']);
+                              Navigator.pushNamed(
+                                  context, '/for_you_comments_page');
+                            },
+                            child: Card(
+                              margin: EdgeInsets.symmetric(vertical: 3.5),
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                  color: Color(0xFF353535),
+                                ),
                               ),
-                              Text(
-                                descriptionText,
-                                style: TextStyle(color: Colors.white),
+                              color: Colors.transparent,
+                              child: ListTile(
+                                title: Text(
+                                  titleText,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                subtitle: Text(
+                                  descriptionText,
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                            ],
+                            ),
                           );
                         },
                       ),

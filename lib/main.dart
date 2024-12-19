@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/firebase_options.dart';
+import 'package:shadow_space/pages/for_you_comments.dart';
 import 'package:shadow_space/pages/home_page.dart';
 import 'package:shadow_space/pages/insert_page.dart';
 import 'package:shadow_space/pages/login_page.dart';
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
         '/register': (context) => RegisterPage(),
         '/home_page': (context) => HomePage(),
         '/insert_page': (context) => InsertPage(),
-        '/profile_page': (context) => ProfilePage()
+        '/profile_page': (context) => ProfilePage(),
+        '/for_you_comments_page': (context) => ForYouComments()
       },
     );
   }
