@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/firebase_options.dart';
-import 'package:shadow_space/home_page.dart';
-import 'package:shadow_space/insert_page.dart';
-import 'package:shadow_space/login_page.dart';
-import 'package:shadow_space/profile_page.dart';
-import 'package:shadow_space/register_page.dart';
+import 'package:shadow_space/pages/home_page.dart';
+import 'package:shadow_space/pages/insert_page.dart';
+import 'package:shadow_space/pages/login_page.dart';
+import 'package:shadow_space/pages/profile_page.dart';
+import 'package:shadow_space/pages/register_page.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

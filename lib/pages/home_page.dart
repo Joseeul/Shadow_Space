@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shadow_space/tab_for_you.dart';
-import 'package:shadow_space/tab_news.dart';
-import 'package:shadow_space/tab_trending.dart';
+import 'package:shadow_space/pages/tab_for_you.dart';
+import 'package:shadow_space/pages/tab_news.dart';
+import 'package:shadow_space/pages/tab_trending.dart';
 // import 'package:shadow_space/helper/topic_service.dart';
 
 class HomePage extends StatefulWidget {

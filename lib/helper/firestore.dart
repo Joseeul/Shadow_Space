@@ -2,11 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shadow_space/helper/topic_service.dart';
 
 class FirestoreThread {
-  //get collections
   final CollectionReference threads =
       FirebaseFirestore.instance.collection(TopicService.selectedTopic!.title);
 
-  //bikin thread baru
   Future<void> addThread(String thread, String customId) async {
     DocumentReference threadRef = FirebaseFirestore.instance
         .collection('threads')
@@ -19,7 +17,6 @@ class FirestoreThread {
     });
   }
 
-  //read
   Stream<QuerySnapshot> getThreadStream() {
     final threadStream = FirebaseFirestore.instance
         .collection('threads')
@@ -38,5 +35,27 @@ class FirestoreUser {
 
   Future<void> addUsers(String username, String email) async {
     users.add({'username': username, 'email': email});
+  }
+}
+
+class FirestoreAddForYouTopic{
+  final CollectionReference forYou = FirebaseFirestore.instance.collection('foryou');
+
+  Future<void> newTopics(String topicTitle, String topicDescription) async{
+    DocumentReference foryouRef = FirebaseFirestore.instance.collection('foryou')
+    .doc(topicTitle);
+
+    await foryouRef.set({
+      'title': topicTitle,
+      'description': topicDescription
+    });
+  }
+
+  Stream<QuerySnapshot> getTitleStream(){
+    final titleStream = FirebaseFirestore.instance
+    .collection('foryou')
+    .snapshots();
+
+    return titleStream;
   }
 }

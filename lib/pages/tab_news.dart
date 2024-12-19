@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:shadow_space/helper/news_article.dart';
+import 'package:shadow_space/models/news_article.dart';
 import 'package:http/http.dart' as http;
 
 class TabNews extends StatefulWidget {

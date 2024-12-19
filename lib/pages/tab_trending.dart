@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart' as html;
 import 'package:http/http.dart' as http;
-import 'package:shadow_space/helper/topic.dart';
+import 'package:shadow_space/models/topic.dart';
 import 'package:shadow_space/helper/topic_service.dart';
 
 class TabTrending extends StatefulWidget {

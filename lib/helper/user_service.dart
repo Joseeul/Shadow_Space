@@ -1,4 +1,4 @@
-import 'package:shadow_space/helper/get_user.dart';
+import 'package:shadow_space/models/get_user.dart';
 
 class UserService {
   static GetUser? loggedUser;

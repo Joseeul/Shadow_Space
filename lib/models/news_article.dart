@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class NewsArticle {
   String author;
   String title;
