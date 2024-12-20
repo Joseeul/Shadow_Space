@@ -55,8 +55,10 @@ class FirestoreAddForYouTopic {
   }
 
   Stream<QuerySnapshot> getTitleStream() {
-    final titleStream =
-        FirebaseFirestore.instance.collection('foryou').snapshots();
+    final titleStream = FirebaseFirestore.instance
+        .collection('foryou')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
 
     return titleStream;
   }

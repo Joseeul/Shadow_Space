@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/firestore.dart';
 import 'package:shadow_space/helper/foryou_Service.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ForYouComments extends StatefulWidget {
   const ForYouComments({super.key});
@@ -39,6 +40,33 @@ class _ForYouCommentsState extends State<ForYouComments> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  spacing: screenWidth * 0.02,
+                  children: [
+                    Image.asset(
+                      'lib/assets/ui_icon/account.png',
+                      width: screenWidth * 0.08,
+                      height: screenHeight * 0.08,
+                    ),
+                    Text(
+                      'Anonymous',
+                      style: TextStyle(
+                          color: Colors.white, fontFamily: 'j-medium'),
+                    ),
+                  ],
+                ),
+                Text(
+                  ForyouService.selectedForyouTopic!.forYouTime,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'j-reg',
+                  ),
+                ),
+              ],
+            ),
             Text(
               ForyouService.selectedForyouTopic!.forYouTitle,
               style: TextStyle(
@@ -47,12 +75,21 @@ class _ForYouCommentsState extends State<ForYouComments> {
                 fontSize: 20,
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               ForyouService.selectedForyouTopic!.forYouDescription,
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'j-reg',
               ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Divider(
+              color: Colors.white,
             ),
             TextField(
               controller: _commentController,
@@ -79,6 +116,9 @@ class _ForYouCommentsState extends State<ForYouComments> {
               cursorColor: Colors.white,
               style: TextStyle(color: Colors.white),
             ),
+            SizedBox(
+              height: 20,
+            ),
             StreamBuilder<QuerySnapshot>(
               stream: firestoreCommentForYou.getForyouCommentStream(),
               builder: (context, snapshot) {
@@ -103,13 +143,22 @@ class _ForYouCommentsState extends State<ForYouComments> {
                             document.data() as Map<String, dynamic>;
 
                         String commentText = data['content'];
+                        Timestamp timestamp = data['timestamp'];
+                        DateTime dateTime = timestamp.toDate();
+                        String timeAgo = timeago.format(dateTime);
 
-                        //display as list tile
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Text(
+                              '${commentList.length} Comments',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'j-medium',
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   spacing: screenWidth * 0.02,
@@ -126,34 +175,40 @@ class _ForYouCommentsState extends State<ForYouComments> {
                                         Text(
                                           'Anonymous',
                                           style: TextStyle(
+                                            fontFamily: 'j-reg',
                                             color: Colors.white,
-                                            fontFamily: 'j-medium',
-                                            fontSize: 15,
                                           ),
                                         ),
                                         Text(
                                           commentText,
                                           style: TextStyle(
-                                            color: Colors.white,
                                             fontFamily: 'j-reg',
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ],
-                                    ),
+                                    )
                                   ],
                                 ),
+                                Text(
+                                  timeAgo,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'j-reg',
+                                  ),
+                                )
                               ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
+                            )
                           ],
                         );
                       },
                     ),
                   );
                 } else {
-                  return Text('no comment yet');
+                  return Text(
+                    'no comment yet',
+                    style: TextStyle(color: Colors.white),
+                  );
                 }
               },
             ),

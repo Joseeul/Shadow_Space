@@ -35,40 +35,47 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: Padding(
-          padding: EdgeInsets.all(
-            20,
-          ),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 40),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(
-                        color: Color(0xFFAC0909),
-                      ),
+        padding: EdgeInsets.all(
+          20,
+        ),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(double.infinity, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(
+                      color: Color(0xFFAC0909),
                     ),
-                    backgroundColor: Colors.transparent,
-                    overlayColor: Color(0xFFAC0909),
                   ),
-                  onPressed: () {
-                    Auth().signOut();
-                    Auth().signOutGoogle();
-                    Navigator.pop(context);
-                    Navigator.popAndPushNamed(context, '/');
-                  },
-                  child: Text(
-                    'Log out',
-                    style: TextStyle(color: Color(0xFFAC0909)),
+                  backgroundColor: Colors.transparent,
+                  overlayColor: Color(0xFFAC0909),
+                ),
+                onPressed: () {
+                  Auth().signOut();
+                  Auth().signOutGoogle();
+                  Navigator.pop(context);
+                  Navigator.popAndPushNamed(context, '/');
+                },
+                child: Text(
+                  'Log out',
+                  style: TextStyle(
+                    color: Color(0xFFAC0909),
+                    fontFamily: 'j-medium',
                   ),
                 ),
-              ],
-            ),
-          )),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

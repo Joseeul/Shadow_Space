@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/firestore.dart';
 import 'package:shadow_space/helper/foryou_Service.dart';
 import 'package:shadow_space/models/foryou_topic.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class TabForYou extends StatefulWidget {
   const TabForYou({super.key});
@@ -41,6 +42,16 @@ class _TabForYouState extends State<TabForYou> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Container(
+                        width: 50,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFDDDEDE),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                      ),
                       //judul sama icon silang
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,12 +129,33 @@ class _TabForYouState extends State<TabForYou> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              firestoreAddForYouTopic.newTopics(
-                                  _titleController.text,
-                                  _descriptionController.text);
-                              _titleController.clear();
-                              _descriptionController.clear();
-                              Navigator.pop(context);
+                              if (_titleController.text == ' ' || _titleController.text.isEmpty &&
+                                  _descriptionController.text == ' ' || _descriptionController.text.isEmpty) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Failed to post: No text found!',
+                                    ),
+                                  ),
+                                );
+                                _titleController.clear();
+                                _descriptionController.clear();
+                              } else {
+                                firestoreAddForYouTopic.newTopics(
+                                    _titleController.text,
+                                    _descriptionController.text);
+                                _titleController.clear();
+                                _descriptionController.clear();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Topic has been posted',
+                                    ),
+                                  ),
+                                );
+                                Navigator.pop(context);
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
@@ -171,12 +203,13 @@ class _TabForYouState extends State<TabForYou> {
 
                           String titleText = data['title'];
                           String descriptionText = data['description'];
+                          Timestamp timestamp = data['timestamp'];
+                          DateTime dateTime = timestamp.toDate();
+                          String timeAgo = timeago.format(dateTime);
 
                           return GestureDetector(
                             onTap: () {
-                              ForyouService.selectedForyouTopic = ForyouTopic(
-                                  forYouTitle: data['title'],
-                                  forYouDescription: data['description']);
+                              ForyouService.selectedForyouTopic = ForyouTopic(forYouTitle: data['title'], forYouDescription: data['description'], forYouTime: timeAgo);
                               Navigator.pushNamed(
                                   context, '/for_you_comments_page');
                             },
@@ -195,6 +228,13 @@ class _TabForYouState extends State<TabForYou> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'j-medium',
+                                  ),
+                                ),
+                                trailing: Text(
+                                  timeAgo,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'j-reg',
                                   ),
                                 ),
                                 subtitle: Text(

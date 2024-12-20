@@ -34,6 +34,13 @@ class _LoginPageState extends State<LoginPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Succesfully login',
+          ),
+        ),
+      );
       Navigator.popAndPushNamed(context, '/home_page');
     } on FirebaseAuthException catch (e) {
       errorMessage = e.message;
@@ -61,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              //LOGO
               Image.asset(
                 'lib/assets/Logo.png',
                 width: screenWidth * 0.5,
@@ -193,11 +201,18 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () async {
                   try {
                     await Auth().signInWithGoogle();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Successfully login',
+                        ),
+                      ),
+                    );
                     Navigator.popAndPushNamed(context, '/home_page');
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(e.toString()),
+                        content: Text('Failed to login with Google'),
                       ),
                     );
                     print(e);
