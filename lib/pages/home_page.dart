@@ -53,18 +53,19 @@ class _HomePageState extends State<HomePage> {
             TabBar(
               tabs: <Widget>[
                 Tab(
-                  text: 'For You',
+                  text: 'For You Space',
                 ),
                 Tab(
-                  text: 'Trending Topics',
+                  text: 'Trending Space',
                 ),
                 Tab(
-                  text: 'Top News',
+                  text: 'News Space',
                 ),
               ],
               indicatorColor: Colors.white,
               labelColor: Colors.white,
               dividerColor: Colors.transparent,
+              labelStyle: TextStyle(fontFamily: 'j-medium'),
             ),
             Expanded(
               child: TabBarView(

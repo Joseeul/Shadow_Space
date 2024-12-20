@@ -14,7 +14,7 @@ class TabNews extends StatefulWidget {
 class _TabNewsState extends State<TabNews> {
   Future<List<NewsArticle>> fetchNews() async {
     var url =
-        'https://newsapi.org/v2/everything?q=tesla&from=2024-11-19&sortBy=publishedAt&apiKey=6649db36b05042b386247dfe6ee66ceb';
+        'https://newsapi.org/v2/everything?domains=bbc.com,cnn.com,techcrunch.com,thenextweb.com&apiKey=6649db36b05042b386247dfe6ee66ceb';
     try {
       var response = await http.get(Uri.parse(url));
       var jsonData = jsonDecode(response.body);
@@ -62,8 +62,11 @@ class _TabNewsState extends State<TabNews> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(
               child: Text(
-                'Tidak ada berita tersedia',
-                style: TextStyle(color: Colors.white),
+                'no news available',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'j-medium',
+                ),
               ),
             );
           } else {

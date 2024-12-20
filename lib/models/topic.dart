@@ -2,6 +2,6 @@ class Topic {
   String title;
 
   Topic({
-    required this.title
+    required this.title,
   });
 }

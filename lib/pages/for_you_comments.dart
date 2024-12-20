@@ -14,13 +14,22 @@ class ForYouComments extends StatefulWidget {
 class _ForYouCommentsState extends State<ForYouComments> {
   final FirestoreCommentForYou firestoreCommentForYou =
       FirestoreCommentForYou();
-
   var _commentController = TextEditingController();
+  late Stream<QuerySnapshot> commentStream;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    commentStream = firestoreCommentForYou.getForyouCommentStream();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black,
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.1,
@@ -102,10 +111,21 @@ class _ForYouCommentsState extends State<ForYouComments> {
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 suffixIcon: IconButton(
                   onPressed: () {
-                    firestoreCommentForYou.addForyouComment(
-                        _commentController.text,
-                        ForyouService.selectedForyouTopic!.forYouTitle);
-                    _commentController.clear();
+                    if (_commentController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Failed to post: No text found!',
+                          ),
+                        ),
+                      );
+                      _commentController.clear();
+                    } else {
+                      firestoreCommentForYou.addForyouComment(
+                          _commentController.text,
+                          ForyouService.selectedForyouTopic!.forYouTitle);
+                      _commentController.clear();
+                    }
                   },
                   icon: Icon(Icons.send_rounded),
                 ),
@@ -120,12 +140,55 @@ class _ForYouCommentsState extends State<ForYouComments> {
               height: 20,
             ),
             StreamBuilder<QuerySnapshot>(
-              stream: firestoreCommentForYou.getForyouCommentStream(),
+              stream: commentStream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(color: Colors.white);
+                } else if (snapshot.hasData) {
+                  List commentList = snapshot.data!.docs;
+                  return Text(
+                    '${commentList.length} Comments',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'j-medium',
+                    ),
+                  );
+                } else {
+                  return Text(
+                    'No comments yet',
+                    style: TextStyle(color: Colors.white),
+                  );
+                }
+              },
+            ),
+            SizedBox(height: 20),
+            StreamBuilder<QuerySnapshot>(
+              stream: commentStream,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: CircularProgressIndicator(
                       color: Colors.white,
+                    ),
+                  );
+                } else if (snapshot.data!.docs.isEmpty) {
+                  return Center(
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'lib/assets/ui_icon/no-comment.png',
+                          width: screenWidth * 0.1,
+                          height: screenHeight * 0.1,
+                        ),
+                        Text(
+                          'no comments yet',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'j-medium',
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 } else if (snapshot.hasData) {
@@ -150,13 +213,6 @@ class _ForYouCommentsState extends State<ForYouComments> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              '${commentList.length} Comments',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'j-medium',
-                              ),
-                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -206,7 +262,7 @@ class _ForYouCommentsState extends State<ForYouComments> {
                   );
                 } else {
                   return Text(
-                    'no comment yet',
+                    'an error has occured',
                     style: TextStyle(color: Colors.white),
                   );
                 }

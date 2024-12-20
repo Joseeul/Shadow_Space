@@ -129,8 +129,7 @@ class _TabForYouState extends State<TabForYou> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              if (_titleController.text == ' ' || _titleController.text.isEmpty &&
-                                  _descriptionController.text == ' ' || _descriptionController.text.isEmpty) {
+                              if (_titleController.text.trim().isEmpty && _descriptionController.text.trim().isEmpty) {
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/firestore.dart';
 import 'package:shadow_space/helper/topic_service.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class TrendingCommentsPage extends StatefulWidget {
   const TrendingCommentsPage({super.key});
@@ -61,9 +62,20 @@ class _TrendingCommentsPageState extends State<TrendingCommentsPage> {
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 suffixIcon: IconButton(
                   onPressed: () {
-                    firestoreThread.addThread(_threadController.text,
-                        TopicService.selectedTopic!.title);
-                    _threadController.clear();
+                    if (_threadController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Failed to post: No text found!',
+                          ),
+                        ),
+                      );
+                      _threadController.clear();
+                    } else {
+                      firestoreThread.addThread(_threadController.text,
+                          TopicService.selectedTopic!.title);
+                      _threadController.clear();
+                    }
                   },
                   icon: Icon(Icons.send_rounded),
                 ),
@@ -98,14 +110,17 @@ class _TrendingCommentsPageState extends State<TrendingCommentsPage> {
                             document.data() as Map<String, dynamic>;
 
                         String commentText = data['content'];
+                        Timestamp timestamp = data['timestamp'];
+                        DateTime dateTime = timestamp.toDate();
+                        String timeAgo = timeago.format(dateTime);
                         // String userText = data['username'];
 
                         //display as list tile
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   spacing: screenWidth * 0.02,
@@ -122,27 +137,30 @@ class _TrendingCommentsPageState extends State<TrendingCommentsPage> {
                                         Text(
                                           'Anonymous',
                                           style: TextStyle(
+                                            fontFamily: 'j-reg',
                                             color: Colors.white,
-                                            fontFamily: 'j-medium',
-                                            fontSize: 15,
                                           ),
                                         ),
                                         Text(
                                           commentText,
                                           style: TextStyle(
-                                            color: Colors.white,
                                             fontFamily: 'j-reg',
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ],
-                                    ),
+                                    )
                                   ],
                                 ),
+                                Text(
+                                  timeAgo,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'j-reg',
+                                  ),
+                                )
                               ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
+                            )
                           ],
                         );
                       },
