@@ -97,9 +97,6 @@ class _ForYouCommentsState extends State<ForYouComments> {
             SizedBox(
               height: 20,
             ),
-            Divider(
-              color: Colors.white,
-            ),
             TextField(
               controller: _commentController,
               decoration: InputDecoration(

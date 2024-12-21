@@ -21,6 +21,9 @@ class _TabForYouState extends State<TabForYou> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
@@ -46,7 +49,12 @@ class _TabForYouState extends State<TabForYou> {
                         width: 50,
                         height: 5,
                         decoration: BoxDecoration(
-                          color: Color(0xFFDDDEDE),
+                          color: Color.fromARGB(
+                            255,
+                            184,
+                            184,
+                            184,
+                          ),
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
                           ),
@@ -129,7 +137,8 @@ class _TabForYouState extends State<TabForYou> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              if (_titleController.text.trim().isEmpty && _descriptionController.text.trim().isEmpty) {
+                              if (_titleController.text.trim().isEmpty &&
+                                  _descriptionController.text.trim().isEmpty) {
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -180,79 +189,144 @@ class _TabForYouState extends State<TabForYou> {
         child: const Icon(Icons.add),
       ),
       body: Container(
+        padding: EdgeInsets.only(left: 20),
         child: Column(
           children: [
             StreamBuilder(
-                stream: firestoreAddForYouTopic.getTitleStream(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                        child: CircularProgressIndicator(
+              stream: firestoreAddForYouTopic.getTitleStream(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
                       color: Colors.white,
-                    ));
-                  } else if (snapshot.hasData) {
-                    List titleList = snapshot.data!.docs;
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: titleList.length,
-                        itemBuilder: (context, index) {
-                          DocumentSnapshot document = titleList[index];
-                          Map<String, dynamic> data =
-                              document.data() as Map<String, dynamic>;
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  List titleList = snapshot.data!.docs;
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: titleList.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot document = titleList[index];
+                        Map<String, dynamic> data =
+                            document.data() as Map<String, dynamic>;
 
-                          String titleText = data['title'];
-                          String descriptionText = data['description'];
-                          Timestamp timestamp = data['timestamp'];
-                          DateTime dateTime = timestamp.toDate();
-                          String timeAgo = timeago.format(dateTime);
+                        String titleText = data['title'];
+                        String descriptionText = data['description'];
+                        Timestamp timestamp = data['timestamp'];
+                        DateTime dateTime = timestamp.toDate();
+                        String timeAgo = timeago.format(dateTime);
 
-                          return GestureDetector(
-                            onTap: () {
-                              ForyouService.selectedForyouTopic = ForyouTopic(forYouTitle: data['title'], forYouDescription: data['description'], forYouTime: timeAgo);
-                              Navigator.pushNamed(
-                                  context, '/for_you_comments_page');
-                            },
-                            child: Card(
-                              margin: EdgeInsets.symmetric(vertical: 3.5),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  strokeAlign: BorderSide.strokeAlignOutside,
-                                  color: Color(0xFF353535),
+                        return GestureDetector(
+                          onTap: () {
+                            ForyouService.selectedForyouTopic = ForyouTopic(
+                                forYouTitle: data['title'],
+                                forYouDescription: data['description'],
+                                forYouTime: timeAgo);
+                            Navigator.pushNamed(
+                                context, '/for_you_comments_page');
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                spacing: screenWidth * 0.02,
+                                children: [
+                                  Image.asset(
+                                    'lib/assets/ui_icon/account.png',
+                                    width: screenWidth * 0.085,
+                                    height: screenHeight * 0.085,
+                                  ),
+                                  Text(
+                                    'Anonymous',
+                                    style: TextStyle(
+                                      fontFamily: 'j-medium',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.circle,
+                                    color: Colors.white,
+                                    size: 5,
+                                  ),
+                                  Text(
+                                    timeAgo,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'j-reg',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(bottom: 20),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Color(0xFF353535),
+                                    ),
+                                  ),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      titleText,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'j-medium',
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      descriptionText,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'j-reg',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          'lib/assets/ui_icon/like.png',
+                                          width: screenWidth * 0.06,
+                                          height: screenHeight * 0.06,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Image.asset(
+                                          'lib/assets/ui_icon/chat.png',
+                                          width: screenWidth * 0.05,
+                                          height: screenHeight * 0.05,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Image.asset('lib/assets/ui_icon/refresh.png',
+                                          width: screenWidth * 0.055,
+                                          height: screenHeight * 0.055,
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
-                              color: Colors.transparent,
-                              child: ListTile(
-                                title: Text(
-                                  titleText,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'j-medium',
-                                  ),
-                                ),
-                                trailing: Text(
-                                  timeAgo,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'j-reg',
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  descriptionText,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'j-reg',
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    return Text('no thread');
-                  }
-                }),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  return Text('no thread');
+                }
+              },
+            ),
           ],
         ),
       ),

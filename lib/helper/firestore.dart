@@ -12,7 +12,6 @@ class FirestoreThread {
         .doc(title); // Memberikan ID kustom pada dokumen
 
     await threadRef.collection('comments').add({
-      'username': 'Anonymous',
       'content': thread,
       'timestamp': Timestamp.now()
     });
@@ -69,11 +68,11 @@ class FirestoreCommentForYou {
       .collection(ForyouService.selectedForyouTopic!.forYouTitle);
 
   Future<void> addForyouComment(String comment, String title) async {
-    DocumentReference threadRef = FirebaseFirestore.instance
+    DocumentReference commentRef = FirebaseFirestore.instance
         .collection('foryou')
         .doc(title); // Memberikan ID kustom pada dokumen
 
-    await threadRef.collection('comments').add({
+    await commentRef.collection('comments').add({
       'content': comment,
       'timestamp': Timestamp.now(),
     });
