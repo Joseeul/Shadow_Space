@@ -11,10 +11,9 @@ class FirestoreThread {
         .collection('threads')
         .doc(title); // Memberikan ID kustom pada dokumen
 
-    await threadRef.collection('comments').add({
-      'content': thread,
-      'timestamp': Timestamp.now()
-    });
+    await threadRef
+        .collection('comments')
+        .add({'content': thread, 'timestamp': Timestamp.now()});
   }
 
   Stream<QuerySnapshot> getThreadStream() {
@@ -29,12 +28,21 @@ class FirestoreThread {
   }
 }
 
-class FirestoreUser {
+class FirestoreAddUser {
   final CollectionReference users =
       FirebaseFirestore.instance.collection('users');
 
-  Future<void> addUsers(String username, String email) async {
-    users.add({'username': username, 'email': email});
+  Future<void> addUsers(String username, String email, String uid) async {
+    users.add({
+      'username': username,
+      'email': email,
+      'uid': uid
+    });
+  }
+
+  Future<bool> checkUser(String uid) async{
+    final querySnapshot = await users.where('uid', isEqualTo: uid).get();
+    return querySnapshot.docs.isNotEmpty;
   }
 }
 

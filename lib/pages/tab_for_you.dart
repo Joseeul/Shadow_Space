@@ -189,7 +189,7 @@ class _TabForYouState extends State<TabForYou> {
         child: const Icon(Icons.add),
       ),
       body: Container(
-        padding: EdgeInsets.only(left: 20),
+        padding: EdgeInsets.only(left: 20, right: 20),
         child: Column(
           children: [
             StreamBuilder(
@@ -259,15 +259,7 @@ class _TabForYouState extends State<TabForYou> {
                                 ],
                               ),
                               Container(
-                                padding: EdgeInsets.only(bottom: 20),
                                 width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Color(0xFF353535),
-                                    ),
-                                  ),
-                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -286,36 +278,44 @@ class _TabForYouState extends State<TabForYou> {
                                         fontFamily: 'j-reg',
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Image.asset(
-                                          'lib/assets/ui_icon/like.png',
-                                          width: screenWidth * 0.06,
-                                          height: screenHeight * 0.06,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Image.asset(
-                                          'lib/assets/ui_icon/chat.png',
-                                          width: screenWidth * 0.05,
-                                          height: screenHeight * 0.05,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Image.asset('lib/assets/ui_icon/refresh.png',
-                                          width: screenWidth * 0.055,
-                                          height: screenHeight * 0.055,
-                                        ),
-                                      ],
-                                    )
                                   ],
                                 ),
                               ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Color(0xFF353535),
+                                    ),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Image.asset(
+                                      'lib/assets/ui_icon/like.png',
+                                      width: screenWidth * 0.06,
+                                      height: screenHeight * 0.06,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Image.asset(
+                                      'lib/assets/ui_icon/chat.png',
+                                      width: screenWidth * 0.05,
+                                      height: screenHeight * 0.05,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Image.asset(
+                                      'lib/assets/ui_icon/refresh.png',
+                                      width: screenWidth * 0.055,
+                                      height: screenHeight * 0.055,
+                                    ),
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                         );

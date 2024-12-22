@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shadow_space/firebase_options.dart';
+import 'package:shadow_space/helper/user_service.dart';
+import 'package:shadow_space/models/get_user.dart';
 import 'package:shadow_space/pages/for_you_comments.dart';
 import 'package:shadow_space/pages/home_page.dart';
 import 'package:shadow_space/pages/news_details.dart';
@@ -10,6 +12,7 @@ import 'package:shadow_space/pages/profile_page.dart';
 import 'package:shadow_space/pages/register_page.dart';
 
 void main() async{
+  UserService.loggedUser = GetUser(email: '', username: '', userId: '');
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());

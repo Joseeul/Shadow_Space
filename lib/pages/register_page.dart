@@ -11,7 +11,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final FirestoreUser firestoreUser = FirestoreUser();
+  final FirestoreAddUser firestoreAddUser = FirestoreAddUser();
   String? errorMessage = '';
   bool isLogin = true;
   bool _passwordVisible = false;
@@ -45,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       );
-      firestoreUser.addUsers(_usernameController.text, _emailController.text);
+      firestoreAddUser.addUsers(_usernameController.text, _emailController.text, _usernameController.text);
       Navigator.popAndPushNamed(context, '/');
     } on FirebaseAuthException catch (e) {
       errorMessage = e.message;

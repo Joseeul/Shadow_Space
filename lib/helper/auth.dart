@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shadow_space/helper/firestore.dart';
+import 'package:shadow_space/helper/user_service.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -43,6 +45,7 @@ class Auth {
   }
 
   Future<UserCredential> signInWithGoogle() async {
+    final FirestoreAddUser firestoreGoogleUser = FirestoreAddUser();
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     final GoogleSignInAuthentication? googleAuth =
@@ -52,6 +55,25 @@ class Auth {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
+
+    final UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    final User? user = userCredential.user;
+
+    if (user != null) {
+      UserService.loggedUser!.email = user.email ?? '';
+      UserService.loggedUser!.username = user.displayName ?? '';
+      UserService.loggedUser!.userId = user.uid;
+
+      final bool checkUser = await firestoreGoogleUser.checkUser(user.uid);
+
+      if(!checkUser){
+        firestoreGoogleUser.addUsers(UserService.loggedUser!.username,
+            UserService.loggedUser!.email, UserService.loggedUser!.userId);
+      }
+    } else {
+      return Future.error('Error');
+    }
 
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }

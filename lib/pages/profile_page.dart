@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shadow_space/helper/auth.dart';
+import 'package:shadow_space/helper/user_service.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,6 +13,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     // double screenWidth = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.black,
@@ -35,45 +37,84 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(
-          20,
-        ),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 40),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              spacing: screenWidth * 0.02,
+              children: [
+                Image.asset(
+                  'lib/assets/ui_icon/account.png',
+                  width: screenWidth * 0.1,
+                  height: screenHeight * 0.1,
+                ),
+                Text(
+                  UserService.loggedUser!.username.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'j-medium',
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            Text(
+              'Email: ${UserService.loggedUser!.email.toString()}',
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'j-reg',
+              ),
+            ),
+            Spacer(),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'UserID: ${UserService.loggedUser!.userId.toString()}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'j-reg',
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(double.infinity, 40),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Color(0xFFAC0909),
+                      ),
+                    ),
+                    backgroundColor: Colors.transparent,
+                    overlayColor: Color(0xFFAC0909),
+                  ),
+                  onPressed: () {
+                    Auth().signOut();
+                    Auth().signOutGoogle();
+                    Navigator.pop(context);
+                    Navigator.popAndPushNamed(context, '/');
+                  },
+                  child: Text(
+                    'Log out',
+                    style: TextStyle(
                       color: Color(0xFFAC0909),
+                      fontFamily: 'j-medium',
                     ),
                   ),
-                  backgroundColor: Colors.transparent,
-                  overlayColor: Color(0xFFAC0909),
                 ),
-                onPressed: () {
-                  Auth().signOut();
-                  Auth().signOutGoogle();
-                  Navigator.pop(context);
-                  Navigator.popAndPushNamed(context, '/');
-                },
-                child: Text(
-                  'Log out',
-                  style: TextStyle(
-                    color: Color(0xFFAC0909),
-                    fontFamily: 'j-medium',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+          ],
         ),
       ),
     );
