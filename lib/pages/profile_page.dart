@@ -12,7 +12,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.width;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -37,34 +36,80 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.only(left: 20, right: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //gambar profile
             Row(
-              spacing: screenWidth * 0.02,
+              spacing: screenWidth * 0.05,
               children: [
                 Image.asset(
                   'lib/assets/ui_icon/account.png',
-                  width: screenWidth * 0.1,
-                  height: screenHeight * 0.1,
+                  width: screenWidth * 0.15,
+                  height: screenHeight * 0.15,
                 ),
                 Text(
                   UserService.loggedUser!.username.toString(),
                   style: TextStyle(
                     color: Colors.white,
-                    fontFamily: 'j-medium',
-                    fontSize: 20,
+                    fontFamily: 'j-bold',
+                    fontSize: screenWidth * 0.08,
                   ),
                 ),
               ],
             ),
-            Text(
-              'Email: ${UserService.loggedUser!.email.toString()}',
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'j-reg',
-              ),
+
+            //2 tombol
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: screenWidth * 0.02,
+              children: [
+                Container(
+                  width: screenWidth * 0.44,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 38, 38, 38),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      overlayColor: Colors.white,
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      'Edit Profile',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'j-medium',
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: screenWidth * 0.44,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 38, 38, 38),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      overlayColor: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/about_dev');
+                    },
+                    child: Text(
+                      'About Developer',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'j-medium',
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(
+              color: Color(0xFF353535),
             ),
             Spacer(),
             Column(
@@ -112,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 30,
             ),
           ],
         ),

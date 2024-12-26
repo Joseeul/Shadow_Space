@@ -60,6 +60,7 @@ class _TabForYouState extends State<TabForYou> {
                           ),
                         ),
                       ),
+
                       //judul sama icon silang
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -290,7 +291,8 @@ class _TabForYouState extends State<TabForYou> {
                                   ),
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Image.asset(
                                       'lib/assets/ui_icon/like.png',

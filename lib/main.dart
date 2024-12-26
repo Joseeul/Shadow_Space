@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:shadow_space/firebase_options.dart';
 import 'package:shadow_space/helper/user_service.dart';
 import 'package:shadow_space/models/get_user.dart';
-import 'package:shadow_space/pages/for_you_comments.dart';
-import 'package:shadow_space/pages/home_page.dart';
-import 'package:shadow_space/pages/news_details.dart';
-import 'package:shadow_space/pages/trending_comments.dart';
+import 'package:shadow_space/pages/about_dev.dart';
+import 'package:shadow_space/pages/home_page/tab_for_you/for_you_comments.dart';
+import 'package:shadow_space/pages/home_page/home_page.dart';
+import 'package:shadow_space/pages/home_page/tab_news/news_details.dart';
+import 'package:shadow_space/pages/home_page/tab_trending/trending_comments.dart';
 import 'package:shadow_space/pages/login_page.dart';
 import 'package:shadow_space/pages/profile_page.dart';
 import 'package:shadow_space/pages/register_page.dart';
@@ -32,7 +33,8 @@ class MyApp extends StatelessWidget {
         '/trending_comments_page': (context) => TrendingCommentsPage(),
         '/profile_page': (context) => ProfilePage(),
         '/for_you_comments_page': (context) => ForYouComments(),
-        '/news_details_page': (context) => NewsDetails()
+        '/news_details_page': (context) => NewsDetails(),
+        '/about_dev': (context) => AboutDev()
       },
     );
   }
