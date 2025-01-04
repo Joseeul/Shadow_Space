@@ -33,16 +33,23 @@ class FirestoreAddUser {
       FirebaseFirestore.instance.collection('users');
 
   Future<void> addUsers(String username, String email, String uid) async {
-    users.add({
-      'username': username,
-      'email': email,
-      'uid': uid
-    });
+    users.add({'username': username, 'email': email, 'uid': uid});
   }
 
-  Future<bool> checkUser(String uid) async{
+  Future<bool> checkUser(String uid) async {
     final querySnapshot = await users.where('uid', isEqualTo: uid).get();
     return querySnapshot.docs.isNotEmpty;
+  }
+
+  Future<Map<String, dynamic>?> checkEmail(String email) async {
+    final querySnapshot = await users.where('email', isEqualTo: email).get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      final userDoc = querySnapshot.docs.first;
+      return userDoc.data() as Map<String, dynamic>;
+    }
+
+    return null;
   }
 }
 

@@ -60,53 +60,27 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
 
             //2 tombol
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: screenWidth * 0.02,
-              children: [
-                Container(
-                  width: screenWidth * 0.44,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 38, 38, 38),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      overlayColor: Colors.white,
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      'Edit Profile',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'j-medium',
-                      ),
-                    ),
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 38, 38, 38),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  overlayColor: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/about_dev');
+                },
+                child: Text(
+                  'About Developer',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'j-medium',
                   ),
                 ),
-                Container(
-                  width: screenWidth * 0.44,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 38, 38, 38),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      overlayColor: Colors.white,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/about_dev');
-                    },
-                    child: Text(
-                      'About Developer',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'j-medium',
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
             Divider(
               color: Color(0xFF353535),
@@ -117,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Row(
                   children: [
                     Text(
-                      'UserID: ${UserService.loggedUser!.userId.toString()}',
+                      'UserID: ${UserService.loggedUser!.userId}',
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'j-reg',

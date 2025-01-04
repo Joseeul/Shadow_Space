@@ -2,10 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shadow_space/helper/firestore.dart';
 import 'package:shadow_space/helper/user_service.dart';
+import 'package:shadow_space/models/get_user.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  final FirestoreAddUser firestoreUser = FirestoreAddUser();
 
   User? get currentUser => _firebaseAuth.currentUser;
 
@@ -19,6 +21,11 @@ class Auth {
       email: email,
       password: password,
     );
+
+    Map<String, dynamic>? userData = await firestoreUser.checkEmail(email);
+
+    UserService.loggedUser =
+        GetUser(email: email, username: userData?['username'], userId: userData?['uid']);
   }
 
   Future<void> createUserWithEmailAndPassword({
@@ -67,7 +74,7 @@ class Auth {
 
       final bool checkUser = await firestoreGoogleUser.checkUser(user.uid);
 
-      if(!checkUser){
+      if (!checkUser) {
         firestoreGoogleUser.addUsers(UserService.loggedUser!.username,
             UserService.loggedUser!.email, UserService.loggedUser!.userId);
       }

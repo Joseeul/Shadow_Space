@@ -14,6 +14,14 @@ class TrendingCommentsPage extends StatefulWidget {
 class _TrendingCommentsPageState extends State<TrendingCommentsPage> {
   final FirestoreThread firestoreThread = FirestoreThread();
   var _threadController = TextEditingController();
+  late Stream<QuerySnapshot> commentStream;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    commentStream = firestoreThread.getThreadStream();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +94,59 @@ class _TrendingCommentsPageState extends State<TrendingCommentsPage> {
               cursorColor: Colors.white,
               style: TextStyle(color: Colors.white),
             ),
+            SizedBox(
+              height: 20,
+            ),
             StreamBuilder<QuerySnapshot>(
-              stream: firestoreThread.getThreadStream(),
+              stream: commentStream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(color: Colors.white);
+                } else if (snapshot.hasData) {
+                  List commentList = snapshot.data!.docs;
+                  return Text(
+                    '${commentList.length} Comments',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'j-medium',
+                    ),
+                  );
+                } else {
+                  return Text(
+                    'No comments yet',
+                    style: TextStyle(color: Colors.white),
+                  );
+                }
+              },
+            ),
+            SizedBox(height: 20),
+            StreamBuilder<QuerySnapshot>(
+              stream: commentStream,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: CircularProgressIndicator(
                       color: Colors.white,
+                    ),
+                  );
+                } else if (snapshot.data!.docs.isEmpty) {
+                  return Center(
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'lib/assets/ui_icon/no-comment.png',
+                          width: screenWidth * 0.1,
+                          height: screenHeight * 0.1,
+                        ),
+                        Text(
+                          'no comments yet',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'j-medium',
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 } else if (snapshot.hasData) {
@@ -113,9 +167,7 @@ class _TrendingCommentsPageState extends State<TrendingCommentsPage> {
                         Timestamp timestamp = data['timestamp'];
                         DateTime dateTime = timestamp.toDate();
                         String timeAgo = timeago.format(dateTime);
-                        // String userText = data['username'];
 
-                        //display as list tile
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -167,7 +219,10 @@ class _TrendingCommentsPageState extends State<TrendingCommentsPage> {
                     ),
                   );
                 } else {
-                  return Text('no threads yet');
+                  return Text(
+                    'an error has occured',
+                    style: TextStyle(color: Colors.white),
+                  );
                 }
               },
             ),

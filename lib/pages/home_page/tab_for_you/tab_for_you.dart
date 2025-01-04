@@ -19,6 +19,8 @@ class _TabForYouState extends State<TabForYou> {
   var _titleController = TextEditingController();
   var _descriptionController = TextEditingController();
 
+  Set<String> likedItems = {};
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -212,11 +214,14 @@ class _TabForYouState extends State<TabForYou> {
                         Map<String, dynamic> data =
                             document.data() as Map<String, dynamic>;
 
+                        String id = document.id;
                         String titleText = data['title'];
                         String descriptionText = data['description'];
                         Timestamp timestamp = data['timestamp'];
                         DateTime dateTime = timestamp.toDate();
                         String timeAgo = timeago.format(dateTime);
+
+                        bool isLiked = likedItems.contains(id);
 
                         return GestureDetector(
                           onTap: () {
@@ -294,10 +299,23 @@ class _TabForYouState extends State<TabForYou> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Image.asset(
-                                      'lib/assets/ui_icon/like.png',
-                                      width: screenWidth * 0.06,
-                                      height: screenHeight * 0.06,
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          if (isLiked) {
+                                            likedItems.remove(id);
+                                          } else {
+                                            likedItems.add(id);
+                                          }
+                                        });
+                                      },
+                                      icon: Image.asset(
+                                        isLiked
+                                            ? 'lib/assets/ui_icon/heart.png'
+                                            : 'lib/assets/ui_icon/like.png',
+                                        width: screenWidth * 0.06,
+                                        height: screenHeight * 0.06,
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 10,
