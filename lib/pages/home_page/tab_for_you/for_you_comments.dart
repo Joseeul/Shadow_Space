@@ -33,7 +33,12 @@ class _ForYouCommentsState extends State<ForYouComments> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.1,
-        title: Text('Comments'),
+        title: Text(
+          'Comments',
+          style: TextStyle(
+            fontFamily: 'j-reg',
+          ),
+        ),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         bottom: PreferredSize(
